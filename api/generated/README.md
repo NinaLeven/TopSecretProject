@@ -22,6 +22,7 @@ All URIs are relative to */api*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ProjectsApi* | [**ProjectIdGet**](docs/ProjectsApi.md#projectidget) | **Get** /project/{id} | Get project by UID
+*ProjectsApi* | [**ProjectIdPatch**](docs/ProjectsApi.md#projectidpatch) | **Patch** /project/{id} | Update project
 *ProjectsApi* | [**ProjectPost**](docs/ProjectsApi.md#projectpost) | **Post** /project | Create project
 *ProjectsApi* | [**ProjectsGet**](docs/ProjectsApi.md#projectsget) | **Get** /projects | Lists all projects
 
@@ -30,6 +31,7 @@ Class | Method | HTTP request | Description
  - [CrateProjectRequest](docs/CrateProjectRequest.md)
  - [InlineResponse200](docs/InlineResponse200.md)
  - [ProjectResponse](docs/ProjectResponse.md)
+ - [UpdateProjectRequest](docs/UpdateProjectRequest.md)
 
 ## Documentation For Authorization
  Endpoints do not require authorization.

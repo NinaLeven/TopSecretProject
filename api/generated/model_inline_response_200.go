@@ -10,5 +10,5 @@ package swagger
 
 type InlineResponse200 struct {
 	// List of project
-	Items []ProjectResponse `json:"items,omitempty"`
+	Projects []ProjectResponse `json:"projects,omitempty"`
 }

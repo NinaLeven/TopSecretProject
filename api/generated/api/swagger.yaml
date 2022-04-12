@@ -70,6 +70,38 @@ paths:
           description: Project does not exist
         "500":
           description: Internal server error
+    patch:
+      tags:
+      - projects
+      summary: Update project
+      parameters:
+      - name: uid
+        in: path
+        description: Unique identifier of .
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: Project parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectRequest'
+        required: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        "404":
+          description: Project does not exist
+        "500":
+          description: Internal server error
 components:
   schemas:
     CrateProjectRequest:
@@ -101,6 +133,44 @@ components:
           - done
           - finished
           default: planned
+        progress:
+          maximum: 100
+          minimum: 0
+          type: integer
+          description: Project progress in %
+        participant_ids:
+          type: array
+          description: Ids of the participants
+          items:
+            type: string
+    UpdateProjectRequest:
+      required:
+      - uid
+      type: object
+      properties:
+        name:
+          maxLength: 512
+          minLength: 3
+          type: string
+          description: Project name
+        owner_id:
+          type: string
+          description: Project owner id
+        state:
+          type: string
+          description: Project state; Might be created non-delault for creating prioject
+            post-factum
+          enum:
+          - planned
+          - active
+          - done
+          - finished
+          default: planned
+        progress:
+          maximum: 100
+          minimum: 0
+          type: integer
+          description: Project progress in %
         participant_ids:
           type: array
           description: Ids of the participants
@@ -156,13 +226,13 @@ components:
     inline_response_200:
       type: object
       properties:
-        items:
+        projects:
           type: array
           description: List of project
           items:
             $ref: '#/components/schemas/ProjectResponse'
       example:
-        items:
+        projects:
         - uid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           participant_ids:
           - participant_ids

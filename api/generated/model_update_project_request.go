@@ -8,13 +8,11 @@
  */
 package swagger
 
-type CrateProjectRequest struct {
-	// Unique project identifier, might be used for idempotency
-	Uid string `json:"uid"`
+type UpdateProjectRequest struct {
 	// Project name
-	Name string `json:"name"`
+	Name string `json:"name,omitempty"`
 	// Project owner id
-	OwnerId string `json:"owner_id"`
+	OwnerId string `json:"owner_id,omitempty"`
 	// Project state; Might be created non-delault for creating prioject post-factum
 	State string `json:"state,omitempty"`
 	// Project progress in %
