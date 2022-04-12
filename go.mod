@@ -1,4 +1,4 @@
-module project_manager
+module github.com/NinaLeven/TopSecretProject
 
 go 1.17
 
