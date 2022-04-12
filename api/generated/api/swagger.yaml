@@ -1,0 +1,181 @@
+openapi: 3.0.0
+info:
+  title: Project Manager API
+  version: 0.0.1
+servers:
+- url: /api
+paths:
+  /projects:
+    get:
+      tags:
+      - projects
+      summary: Lists all projects
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "500":
+          description: Internal server error
+  /project:
+    post:
+      tags:
+      - projects
+      summary: Create project
+      requestBody:
+        description: Project parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrateProjectRequest'
+        required: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        "500":
+          description: Internal server error
+        "400":
+          description: Invalid params
+        "409":
+          description: Project with current uid already exists
+  /project/{id}:
+    get:
+      tags:
+      - projects
+      summary: Get project by UID
+      parameters:
+      - name: uid
+        in: path
+        description: Unique identifier of .
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        "404":
+          description: Project does not exist
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    CrateProjectRequest:
+      required:
+      - name
+      - owner_id
+      - uid
+      type: object
+      properties:
+        uid:
+          type: string
+          description: "Unique project identifier, might be used for idempotency"
+          format: uuid
+        name:
+          maxLength: 512
+          minLength: 3
+          type: string
+          description: Project name
+        owner_id:
+          type: string
+          description: Project owner id
+        state:
+          type: string
+          description: Project state; Might be created non-delault for creating prioject
+            post-factum
+          enum:
+          - planned
+          - active
+          - done
+          - finished
+          default: planned
+        participant_ids:
+          type: array
+          description: Ids of the participants
+          items:
+            type: string
+    ProjectResponse:
+      required:
+      - name
+      - owner_id
+      - uid
+      type: object
+      properties:
+        uid:
+          type: string
+          description: Unique project identifier
+          format: uuid
+        name:
+          maxLength: 512
+          minLength: 3
+          type: string
+          description: Project name
+        owner_id:
+          type: string
+          description: Project owner id
+        state:
+          type: string
+          description: Project state
+          enum:
+          - planned
+          - active
+          - done
+          - finished
+          default: planned
+        progress:
+          maximum: 100
+          minimum: 0
+          type: integer
+          description: Project progress in %
+        participant_ids:
+          type: array
+          description: Ids of the participants
+          items:
+            type: string
+      example:
+        uid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        participant_ids:
+        - participant_ids
+        - participant_ids
+        owner_id: owner_id
+        name: name
+        progress: 8
+        state: planned
+    inline_response_200:
+      type: object
+      properties:
+        items:
+          type: array
+          description: List of project
+          items:
+            $ref: '#/components/schemas/ProjectResponse'
+      example:
+        items:
+        - uid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          participant_ids:
+          - participant_ids
+          - participant_ids
+          owner_id: owner_id
+          name: name
+          progress: 8
+          state: planned
+        - uid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          participant_ids:
+          - participant_ids
+          - participant_ids
+          owner_id: owner_id
+          name: name
+          progress: 8
+          state: planned

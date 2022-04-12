@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  version: "0.0.1"
+  title: "Project Manager API"
+
+servers:
+  - url: /api
+
+paths:
+  /projects:
+    get:
+      tags: [projects]
+      summary: Lists all projects
+      responses:
+        200:
+          description: Successful response
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  items:
+                    description: List of project
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ProjectResponse"
+        500:
+          description: Internal server error
+  /project:
+    post:
+      summary: Create project
+      tags: [ projects ]
+      requestBody:
+        description: Project parameters
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrateProjectRequest'
+      responses:
+        200:
+          description: Successful response
+          content:
+            "application/json":
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        500:
+          description: Internal server error
+        400:
+          description: Invalid params
+        409:
+          description: Project with current uid already exists
+
+  /project/{id}:
+    parameters:
+      - name: uid
+        description: Unique identifier of .
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags: [projects]
+      summary: Get project by UID
+      responses:
+        200:
+          description: Successful response
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/ProjectResponse"
+        404:
+          description: Project does not exist
+        500:
+          description: Internal server error
+
+components:
+  schemas:
+    CrateProjectRequest:
+      type: object
+      properties:
+        uid:
+          type: string
+          format: uuid
+          description: Unique project identifier, might be used for idempotency
+        name:
+          type: string
+          description: Project name
+          minLength: 3
+          maxLength: 512
+        owner_id:
+          type: string
+          description: Project owner id
+        state:
+          type: string
+          description: Project state; Might be created non-delault for creating prioject post-factum
+          enum: ["planned","active", "done", "finished"]
+          default: "planned"
+        participant_ids:
+          type: array
+          description: Ids of the participants
+          items:
+            type: string
+      required: [uid, name, owner_id]
+
+    ProjectResponse:
+      type: object
+      properties:
+        uid:
+          type: string
+          format: uuid
+          description: Unique project identifier
+        name:
+          type: string
+          description: Project name
+          minLength: 3
+          maxLength: 512
+        owner_id:
+          type: string
+          description: Project owner id
+        state:
+          type: string
+          description: Project state
+          enum: ["planned", "active", "done", "finished"]
+          default: "planned"
+        progress:
+          type: integer
+          description: Project progress in %
+          minimum: 0
+          maximum: 100
+        participant_ids:
+          type: array
+          description: Ids of the participants
+          items:
+            type: string
+      required: [uid, name, owner_id]
