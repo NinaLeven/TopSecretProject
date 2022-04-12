@@ -9,6 +9,19 @@ servers:
 paths:
   /projects:
     get:
+      parameters:
+        - name: length
+          description: Pagination length
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: offser
+          description: Pagination offset
+          in: query
+          required: false
+          schema:
+            type: integer
       tags: [projects]
       summary: Lists all projects
       responses:
@@ -20,13 +33,15 @@ paths:
                 type: object
                 properties:
                   projects:
-                    description: List of project
                     type: array
+                    description: List of project
                     items:
                       $ref: "#/components/schemas/ProjectResponse"
+                  hits:
+                    type: integer
+                    description: Total hits for pagination
         500:
           description: Internal server error
-  /project:
     post:
       summary: Create project
       tags: [ projects ]

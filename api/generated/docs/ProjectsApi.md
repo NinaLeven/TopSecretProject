@@ -6,8 +6,8 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ProjectIdGet**](ProjectsApi.md#ProjectIdGet) | **Get** /project/{id} | Get project by UID
 [**ProjectIdPatch**](ProjectsApi.md#ProjectIdPatch) | **Patch** /project/{id} | Update project
-[**ProjectPost**](ProjectsApi.md#ProjectPost) | **Post** /project | Create project
 [**ProjectsGet**](ProjectsApi.md#ProjectsGet) | **Get** /projects | Lists all projects
+[**ProjectsPost**](ProjectsApi.md#ProjectsPost) | **Post** /projects | Create project
 
 # **ProjectIdGet**
 > ProjectResponse ProjectIdGet(ctx, uid)
@@ -62,8 +62,41 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **ProjectPost**
-> ProjectResponse ProjectPost(ctx, body)
+# **ProjectsGet**
+> InlineResponse200 ProjectsGet(ctx, optional)
+Lists all projects
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+ **optional** | ***ProjectsApiProjectsGetOpts** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a pointer to a ProjectsApiProjectsGetOpts struct
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **length** | **optional.Int32**| Pagination length | 
+ **offser** | **optional.Int32**| Pagination offset | 
+
+### Return type
+
+[**InlineResponse200**](inline_response_200.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **ProjectsPost**
+> ProjectResponse ProjectsPost(ctx, body)
 Create project
 
 ### Required Parameters
@@ -84,28 +117,6 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **ProjectsGet**
-> InlineResponse200 ProjectsGet(ctx, )
-Lists all projects
-
-### Required Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**InlineResponse200**](inline_response_200.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -26,7 +26,7 @@ func EmployeeRoleFromString(s string) (EmployeeRole, error) {
 type Employee struct {
 	Id         string
 	FirstName  string
-	LastName   stringar
+	LastName   string
 	Email      string
 	Department string
 	Role       EmployeeRole

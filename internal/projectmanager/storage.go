@@ -9,7 +9,7 @@ type StorageProjectCreateRequest struct {
 	Name           string
 	OwnerID        string
 	State          ProjectState
-	Progress       int
+	Progress       int32
 	ParticipantIDs []string
 }
 
@@ -18,7 +18,7 @@ type StorageProjectUpdateRequest struct {
 	Name           *string
 	OwnerID        *string
 	State          *ProjectState
-	Progress       *int
+	Progress       *int32
 	ParticipantIDs *[]string
 }
 

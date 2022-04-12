@@ -23,8 +23,8 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ProjectsApi* | [**ProjectIdGet**](docs/ProjectsApi.md#projectidget) | **Get** /project/{id} | Get project by UID
 *ProjectsApi* | [**ProjectIdPatch**](docs/ProjectsApi.md#projectidpatch) | **Patch** /project/{id} | Update project
-*ProjectsApi* | [**ProjectPost**](docs/ProjectsApi.md#projectpost) | **Post** /project | Create project
 *ProjectsApi* | [**ProjectsGet**](docs/ProjectsApi.md#projectsget) | **Get** /projects | Lists all projects
+*ProjectsApi* | [**ProjectsPost**](docs/ProjectsApi.md#projectspost) | **Post** /projects | Create project
 
 ## Documentation For Models
 

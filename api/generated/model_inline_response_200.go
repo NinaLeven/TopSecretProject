@@ -11,4 +11,6 @@ package swagger
 type InlineResponse200 struct {
 	// List of project
 	Projects []ProjectResponse `json:"projects,omitempty"`
+	// Total hits for pagination
+	Hits int32 `json:"hits,omitempty"`
 }
