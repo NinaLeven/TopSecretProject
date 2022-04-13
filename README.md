@@ -10,6 +10,13 @@ According to the requirements:
 * API is provided in Openapi v3 format
 * Application may be run natively or in docker
 
+### Packages:
+* [api](api/projectmanager.yaml)
+* [server](internal/api)
+* [logic](internal/projectmanager)
+* [storage](internal/integrations/storage)
+* [employees](internal/integrations/employee)
+
 ## Quickstart 
 
 Unfortunately I had problems actually running the application with provided docker compose.
