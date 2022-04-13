@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 
@@ -87,10 +88,14 @@ func Configure(ctx context.Context, configPath string) error {
 		}
 	}()
 
+	log.Info("starting server")
+
 	err = httpServer.Serve(l)
 	if err != nil {
 		return fmt.Errorf("server error: %w", err)
 	}
+
+	log.Info("server exited")
 
 	return nil
 }

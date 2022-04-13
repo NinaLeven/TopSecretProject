@@ -1,0 +1,22 @@
+version: '3.7'
+
+volumes:
+  migrations:
+
+services:
+  postgres:
+    container_name: postgres
+    image: "postgres:12"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  app:
+    build: .
+    network_mode: host
+    restart: unless-stopped

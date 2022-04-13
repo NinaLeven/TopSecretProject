@@ -7,8 +7,10 @@ require (
 	github.com/antihax/optional v1.0.0
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/jmoiron/sqlx v1.3.4
+	github.com/lib/pq v1.2.0
 	github.com/sirupsen/logrus v1.8.1
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
+	gopkg.in/yaml.v2 v2.2.2
 )
 
 require (
