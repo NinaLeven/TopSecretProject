@@ -10,8 +10,8 @@ paths:
   /projects:
     get:
       parameters:
-        - name: length
-          description: Pagination length
+        - name: limit
+          description: Pagination limit
           in: query
           required: false
           schema:
@@ -203,4 +203,10 @@ components:
           description: Ids of the participants
           items:
             type: string
-      required: [uid, name, owner_id]
+        created_at:
+          type: string
+          description: Created at timestamp rfc 3339
+        updated_at:
+          type: string
+          description: Updated at timestamp rfc 3339
+      required: [uid, name, owner_id, state]

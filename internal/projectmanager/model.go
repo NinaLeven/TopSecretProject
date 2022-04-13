@@ -64,12 +64,13 @@ type ProjectGetOptions struct {
 
 type Pagination struct {
 	Offset int
-	Length int
+	Limit  int
 }
 
 type ProjectListOptions struct {
 	UIDs       *[]string
 	Name       *string
+	State      *ProjectState
 	Pagination *Pagination
 }
 

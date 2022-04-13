@@ -11,9 +11,9 @@ paths:
       - projects
       summary: Lists all projects
       parameters:
-      - name: length
+      - name: limit
         in: query
-        description: Pagination length
+        description: Pagination limit
         required: false
         style: form
         explode: true
@@ -196,6 +196,7 @@ components:
       required:
       - name
       - owner_id
+      - state
       - uid
       type: object
       properties:
@@ -230,14 +231,22 @@ components:
           description: Ids of the participants
           items:
             type: string
+        created_at:
+          type: string
+          description: Created at timestamp rfc 3339
+        updated_at:
+          type: string
+          description: Updated at timestamp rfc 3339
       example:
         uid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        updated_at: updated_at
         participant_ids:
         - participant_ids
         - participant_ids
         owner_id: owner_id
         name: name
         progress: 8
+        created_at: created_at
         state: planned
     inline_response_200:
       type: object
@@ -254,18 +263,22 @@ components:
         hits: 6
         projects:
         - uid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          updated_at: updated_at
           participant_ids:
           - participant_ids
           - participant_ids
           owner_id: owner_id
           name: name
           progress: 8
+          created_at: created_at
           state: planned
         - uid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          updated_at: updated_at
           participant_ids:
           - participant_ids
           - participant_ids
           owner_id: owner_id
           name: name
           progress: 8
+          created_at: created_at
           state: planned

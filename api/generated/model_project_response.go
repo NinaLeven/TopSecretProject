@@ -16,9 +16,13 @@ type ProjectResponse struct {
 	// Project owner id
 	OwnerId string `json:"owner_id"`
 	// Project state
-	State string `json:"state,omitempty"`
+	State string `json:"state"`
 	// Project progress in %
 	Progress int32 `json:"progress,omitempty"`
 	// Ids of the participants
 	ParticipantIds []string `json:"participant_ids,omitempty"`
+	// Created at timestamp rfc 3339
+	CreatedAt string `json:"created_at,omitempty"`
+	// Updated at timestamp rfc 3339
+	UpdatedAt string `json:"updated_at,omitempty"`
 }

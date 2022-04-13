@@ -16,6 +16,8 @@ func modelToProjectResponse(r *projectmanager.Project) *swagger.ProjectResponse 
 		State:          string(r.State),
 		Progress:       r.Progress,
 		ParticipantIds: r.ParticipantIDs,
+		CreatedAt:      r.CreatedAt.String(),
+		UpdatedAt:      r.UpdatedAt.String(),
 	}
 }
 

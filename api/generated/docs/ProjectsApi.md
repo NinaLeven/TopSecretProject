@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 Optional parameters are passed through a pointer to a ProjectsApiProjectsGetOpts struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **length** | **optional.Int32**| Pagination length | 
+ **limit** | **optional.Int32**| Pagination limit | 
  **offser** | **optional.Int32**| Pagination offset | 
 
 ### Return type

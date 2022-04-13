@@ -1,4 +1,3 @@
 package config
 
-type ServiceConfig struct {
-}
+a
