@@ -10,12 +10,28 @@ According to the requirements:
 * API is provided in Openapi v3 format
 * Application may be run natively or in docker
 
+## Quickstart 
+
 Unfortunately I had problems actually running the application with provided docker compose.
 Need more time to work out the problem with networks.
 
-
-## Quickstart 
-
 `docker-compose up`
 
+## Longstart
 
+This is the way i was able to virify anything works
+
+```sh
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:12
+cd cmd/projectmanager 
+go build
+./projectmanager -c ../../configs/local.yaml
+```
+
+## Examples
+
+```sh
+curl -XPOST localhost:8080/api/projects -d '{"uid":"1234", "name": "Name!", "owner_id": "eba96253-5ff4-48e4-86d5-7197bcc7c349"}'
+curl -XPATCH localhost:8080/api/projects/1234 -d '{"participant_ids": ["1088511c-18e0-4bb6-861b-8112de23be97"]}'
+curl localhost:8080/api/projects
+```
