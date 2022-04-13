@@ -129,7 +129,7 @@ func (p *projectManagementService) UpdateProject(ctx context.Context, db Storage
 	}
 
 	if r.ParticipantIDs != nil {
-		if owner != nil {
+		if owner == nil {
 			owner, err = p.employee.GetEmployee(ctx, project.OwnerID)
 			if err != nil {
 				return nil, fmt.Errorf("unable to get owner %s: %w", r.OwnerID, err)
