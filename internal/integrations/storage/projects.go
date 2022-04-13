@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/lib/pq"
+
 	sq "github.com/Masterminds/squirrel"
 	"github.com/NinaLeven/TopSecretProject/internal/projectmanager"
 )
@@ -25,14 +27,14 @@ type project struct {
 const (
 	projectsTable = "project"
 
-	projectColumnUID             = "uid"
-	projectColumnName            = "name"
-	projectColumnOwnerID         = "owner_id"
-	projectColumnState           = "state"
-	projectColumnParticipantsIDs = "participants_ids"
-	projectColumnProgress        = "progress"
-	projectColumnCreatedAt       = "created_at"
-	projectColumnUpdatedAt       = "updated_at"
+	projectColumnUID            = "uid"
+	projectColumnName           = "name"
+	projectColumnOwnerID        = "owner_id"
+	projectColumnState          = "state"
+	projectColumnParticipantIDs = "participant_ids"
+	projectColumnProgress       = "progress"
+	projectColumnCreatedAt      = "created_at"
+	projectColumnUpdatedAt      = "updated_at"
 )
 
 func (s *Repository) CreateProject(ctx context.Context, r projectmanager.StorageProjectCreateRequest) error {
@@ -42,7 +44,7 @@ func (s *Repository) CreateProject(ctx context.Context, r projectmanager.Storage
 			projectColumnName,
 			projectColumnOwnerID,
 			projectColumnState,
-			projectColumnParticipantsIDs,
+			projectColumnParticipantIDs,
 			projectColumnProgress,
 			projectColumnCreatedAt,
 			projectColumnUpdatedAt,
@@ -52,11 +54,12 @@ func (s *Repository) CreateProject(ctx context.Context, r projectmanager.Storage
 			r.Name,
 			r.OwnerID,
 			r.State,
-			r.ParticipantIDs,
+			pq.Array(r.ParticipantIDs),
 			r.Progress,
 			time.Now(),
 			time.Now(),
 		).
+		PlaceholderFormat(sq.Dollar).
 		ToSql()
 	if err != nil {
 		return fmt.Errorf("unable to form query: %w", err)
@@ -73,19 +76,20 @@ func (s *Repository) CreateProject(ctx context.Context, r projectmanager.Storage
 func (s *Repository) UpdateProject(ctx context.Context, r projectmanager.StorageProjectUpdateRequest) error {
 	queryBuilder := sq.Update(projectsTable).
 		Where(sq.Eq{projectColumnUID: r.UID}).
-		Set(projectColumnUpdatedAt, time.Now())
+		Set(projectColumnUpdatedAt, time.Now()).
+		PlaceholderFormat(sq.Dollar)
 
 	if r.Name != nil {
-		queryBuilder.Set(projectColumnName, *r.Name)
+		queryBuilder = queryBuilder.Set(projectColumnName, *r.Name)
 	}
 	if r.State != nil {
-		queryBuilder.Set(projectColumnState, *r.State)
+		queryBuilder = queryBuilder.Set(projectColumnState, *r.State)
 	}
 	if r.ParticipantIDs != nil {
-		queryBuilder.Set(projectColumnParticipantsIDs, *r.ParticipantIDs)
+		queryBuilder = queryBuilder.Set(projectColumnParticipantIDs, pq.Array(*r.ParticipantIDs))
 	}
 	if r.Progress != nil {
-		queryBuilder.Set(projectColumnProgress, *r.Progress)
+		queryBuilder = queryBuilder.Set(projectColumnProgress, *r.Progress)
 	}
 
 	query, args, err := queryBuilder.ToSql()
@@ -107,24 +111,25 @@ func (s *Repository) ListProjects(ctx context.Context, r projectmanager.ProjectL
 		projectColumnName,
 		projectColumnOwnerID,
 		projectColumnState,
-		projectColumnParticipantsIDs,
+		projectColumnParticipantIDs,
 		projectColumnProgress,
 		projectColumnCreatedAt,
 		projectColumnUpdatedAt,
 	).
-		From(projectsTable)
+		From(projectsTable).
+		PlaceholderFormat(sq.Dollar)
 
 	if r.UIDs != nil {
-		queryBuilder.Where(sq.Eq{projectColumnUID: *r.UIDs})
+		queryBuilder = queryBuilder.Where(sq.Eq{projectColumnUID: *r.UIDs})
 	}
 	if r.Name != nil {
-		queryBuilder.Where(sq.ILike{projectColumnName: *r.Name})
+		queryBuilder = queryBuilder.Where(sq.ILike{projectColumnName: *r.Name})
 	}
 	if r.State != nil {
-		queryBuilder.Where(sq.ILike{projectColumnState: *r.State})
+		queryBuilder = queryBuilder.Where(sq.ILike{projectColumnState: *r.State})
 	}
 	if r.Pagination != nil {
-		queryBuilder.Limit(uint64(r.Pagination.Limit)).
+		queryBuilder = queryBuilder.Limit(uint64(r.Pagination.Limit)).
 			Offset(uint64(r.Pagination.Offset))
 	}
 
@@ -143,22 +148,14 @@ func (s *Repository) ListProjects(ctx context.Context, r projectmanager.ProjectL
 
 	var res []project
 	for rows.Next() {
-		p := project{
-			UID:            "",
-			Name:           "",
-			OwnerID:        "",
-			State:          "",
-			ParticipantIDs: nil,
-			Progress:       0,
-			CreatedAt:      time.Time{},
-			UpdatedAt:      time.Time{},
-		}
+		p := project{}
+		arr := pq.StringArray{}
 		err = rows.Scan(
 			&p.UID,
 			&p.Name,
 			&p.OwnerID,
 			&p.State,
-			&p.ParticipantIDs,
+			&arr,
 			&p.Progress,
 			&p.CreatedAt,
 			&p.UpdatedAt,
@@ -166,6 +163,8 @@ func (s *Repository) ListProjects(ctx context.Context, r projectmanager.ProjectL
 		if err != nil {
 			return nil, fmt.Errorf("unable to scan row project: %w", err)
 		}
+		p.ParticipantIDs = arr
+		res = append(res, p)
 	}
 	if rows.Err() != nil {
 		return nil, fmt.Errorf("unable to scan projects: %w", err)

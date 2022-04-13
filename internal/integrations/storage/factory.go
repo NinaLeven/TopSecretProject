@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Masterminds/squirrel"
 	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
 
@@ -33,7 +32,7 @@ func (f *factory) NewRepository() projectmanager.Storage {
 }
 
 func (f *factory) RunInTransaction(ctx context.Context, fun func(context.Context, projectmanager.Storage) error) error {
-	tx, err := f.db.BeginTx(ctx, nil)
+	tx, err := f.db.BeginTxx(ctx, nil)
 	if err != nil {
 		return fmt.Errorf("unable to begin transaction: %w", err)
 	}
@@ -56,8 +55,8 @@ func (f *factory) RunInTransaction(ctx context.Context, fun func(context.Context
 }
 
 type sqlxDB interface {
-	squirrel.ExecerContext
-	squirrel.QueryerContext
+	sqlx.ExecerContext
+	sqlx.QueryerContext
 }
 
 type Repository struct {

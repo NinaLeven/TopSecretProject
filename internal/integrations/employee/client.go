@@ -72,13 +72,13 @@ func (e *employeeClient) GetEmployee(ctx context.Context, id string) (*projectma
 		return nil, fmt.Errorf("request failed: unexpected status: %d", res.StatusCode)
 	}
 
-	employees := employee{}
-	err = json.NewDecoder(res.Body).Decode(&res)
+	employee := employee{}
+	err = json.NewDecoder(res.Body).Decode(&employee)
 	if err != nil {
 		return nil, fmt.Errorf("unable to unmarshal employee: %w", err)
 	}
 
-	return employeeToModel(&employees)
+	return employeeToModel(&employee)
 }
 
 func (e *employeeClient) ListEmployees(ctx context.Context) ([]projectmanager.Employee, error) {
@@ -103,7 +103,7 @@ func (e *employeeClient) ListEmployees(ctx context.Context) ([]projectmanager.Em
 	}
 
 	employees := employeeList{}
-	err = json.NewDecoder(res.Body).Decode(&res)
+	err = json.NewDecoder(res.Body).Decode(&employees)
 	if err != nil {
 		return nil, fmt.Errorf("unable to unmarshal employees: %w", err)
 	}
