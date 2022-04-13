@@ -1,8 +1,9 @@
 package api
 
 import (
-	"github.com/go-chi/chi/v5"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 
 	swagger "github.com/NinaLeven/TopSecretProject/api/generated"
 	"github.com/NinaLeven/TopSecretProject/internal/projectmanager"

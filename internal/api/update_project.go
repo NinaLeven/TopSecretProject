@@ -4,9 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/NinaLeven/TopSecretProject/internal/projectmanager"
-	"github.com/go-chi/chi/v5"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
+
+	"github.com/NinaLeven/TopSecretProject/internal/projectmanager"
 )
 
 // UpdateProjectRequest not using generated one since those lack nullability

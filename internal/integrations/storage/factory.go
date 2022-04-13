@@ -21,8 +21,11 @@ type factory struct {
 	log *logrus.Logger
 }
 
-func NewFactory(db *sqlx.DB) Factory {
-
+func NewFactory(db *sqlx.DB, log *logrus.Logger) Factory {
+	return &factory{
+		db:  db,
+		log: log,
+	}
 }
 
 func (f *factory) NewRepository() projectmanager.Storage {

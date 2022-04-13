@@ -1,0 +1,6 @@
+pg: pg://postgres@localhost:5432/postgres
+api:
+  base_path: /
+  addr: :8080
+log_level: info
+employees_base_url: https://employees-api.vercel.app

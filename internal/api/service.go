@@ -17,8 +17,8 @@ type ProjectManagerServer interface {
 }
 
 type Config struct {
-	BasePath string
-	Addr     string
+	BasePath string `yaml:"base_path"`
+	Addr     string `yaml:"addr"`
 }
 
 type projectManagerServer struct {
@@ -35,16 +35,13 @@ func NewProjectManagerServer(
 	log *logrus.Logger,
 	projectManagementService projectmanager.ProjectManagementService,
 	storageFactory storage.Factory,
-) (
-	ProjectManagerServer,
-	error,
-) {
+) ProjectManagerServer {
 	return &projectManagerServer{
 		config:                   config,
 		log:                      log,
 		projectManagementService: projectManagementService,
 		storageFactory:           storageFactory,
-	}, nil
+	}
 }
 
 func (p *projectManagerServer) Route(router chi.Router) {
