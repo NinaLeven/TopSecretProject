@@ -10,6 +10,9 @@ According to the requirements:
 * API is provided in Openapi v3 format
 * Application may be run natively or in docker
 
+In the case that the requrements are such, that ope participant must participate in no more than one project: one should modify storage scheme from 
+`participant_ids text[]` to a new table binding participant and project, with unique index constaint on (project_id, participant_id). Also an additional check in the business-logic layer must be implemented along with corresponding methods in the storage layer. 
+
 ### Packages:
 * [api](api/projectmanager.yaml)
 * [server](internal/api)
